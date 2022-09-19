@@ -29,7 +29,8 @@ html {
 }
 
 .cover-bg {
-  background-color: #db4a92;
+  background-color: #f52e69;
+  background-image: linear-gradient(310deg, #2bff9c 30%, #88c9ff 70%);
   border-radius: 10px 10px 0 0;
 }
 
