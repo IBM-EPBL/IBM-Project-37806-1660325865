@@ -3,7 +3,7 @@
 {% endblock %} {% block body %}
 
 <div class="card p-5">
-  <form>
+  <form action="{{ url_for('insertUser') }}" method="POST">
     <h1 class="h3 mb-3 fw-bold text-center">SIGN UP</h1>
 
     <div class="form-floating mb-3">
@@ -12,6 +12,7 @@
         class="form-control"
         id="floatingInput"
         placeholder="name@example.com"
+        name="email"
       />
       <label for="floatingInput">Email address</label>
     </div>
@@ -21,6 +22,7 @@
         class="form-control"
         id="floatingPassword"
         placeholder="Password"
+        name="password"
       />
       <label for="floatingPassword">Password</label>
     </div>
