@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://ibm-object-assignment3.s3.jp-tok.cloud-object-storage.appdomain.cloud/style.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <title>My Website</title>
+    <script>
+      window.watsonAssistantChatOptions = {
+        integrationID: "22535791-4ffa-4f99-81a8-fa49b8ad19c8", // The ID of this integration.
+        region: "jp-tok", // The region your integration is hosted in.
+        serviceInstanceID: "1cd0eba8-12ee-45fd-8900-ce4fa038f599", // The ID of your service instance.
+        onLoad: function (instance) {
+          instance.render();
+        },
+      };
+      setTimeout(function () {
+        const t = document.createElement("script");
+        t.src =
+          "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" +
+          (window.watsonAssistantChatOptions.clientVersion || "latest") +
+          "/WatsonAssistantChatEntry.js";
+        document.head.appendChild(t);
+      });
+    </script>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <section id="header">
+      <div class="header container">
+        <div class="nav-bar">
+          <div class="brand">
+            <h1><span>IBM Services</span></h1>
+          </div>
+          <div class="nav-list">
+            <div class="hamburger">
+              <div class="bar"></div>
+            </div>
+            <ul>
+              <li><a href="#services" data-after="Service">Services</a></li>
+              <li><a href="#about" data-after="About">About</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Header -->
+
+    <!-- Service Section -->
+    <section id="services">
+      <div class="services container">
+        <div class="service-top">
+          <h1 class="section-title">Services</h1>
+        </div>
+        <div class="service-bottom">
+          <div class="card m-2 p-2" style="width: 25rem">
+            <img
+              src="https://ibm-object-assignment3.s3.jp-tok.cloud-object-storage.appdomain.cloud/IBM.png"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <p class="card-text">Many Services Provided by IBM</p>
+            </div>
+          </div>
+          <div class="card m-1 p-2" style="width: 30rem">
+            <img
+              src="https://ibm-object-assignment3.s3.jp-tok.cloud-object-storage.appdomain.cloud/db.png"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <p class="card-text">DB2 is one of the DB Services</p>
+            </div>
+          </div>
+          <div class="card m-1 p-2" style="width: 30rem">
+            <img
+              src="https://ibm-object-assignment3.s3.jp-tok.cloud-object-storage.appdomain.cloud/cloud.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <p class="card-text">Register for Cloud feature Code</p>
+            </div>
+          </div>
+          <div class="card m-1 p-2" style="width: 30rem">
+            <img
+              src="https://ibm-object-assignment3.s3.jp-tok.cloud-object-storage.appdomain.cloud/s3-bucket.png"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <p class="card-text">Wanna store objects?</p>
+            </div>
+          </div>
+          <div class="card m-2 p-2" style="width: 30rem">
+            <img
+              src="https://ibm-object-assignment3.s3.jp-tok.cloud-object-storage.appdomain.cloud/chatbot.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <p class="card-text">Strike a conversation with our Chatbot</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Service Section -->
+
+    <!-- About Section -->
+    <section id="about">
+      <div class="about container">
+        <div class="about-img">
+          <img
+            src="https://ibm-object-assignment3.s3.jp-tok.cloud-object-storage.appdomain.cloud/about.jpg"
+            alt="img"
+            style="border: 5px solid #fb8500"
+          />
+        </div>
+        <div class="col-right">
+          <h1 class="section-title">Watson <span>Assistant</span></h1>
+          <p>
+            IBM Watson Assistant is built on deep learning, machine learning,
+            and natural language processing (NLP) models to understand
+            questions, find or search for the best answers, and complete the
+            user’s intended action through conversational AI. Watson also uses
+            intent classification and entity recognition to better understand
+            customers in context and transfer them to a human agent when needed.
+          </p>
+          <a
+            href="https://www.ibm.com/products/watson-assistant/artificial-intelligence"
+            class="effec"
+            style="text-decoration: none"
+            >Wanna Try?</a
+          >
+        </div>
+      </div>
+    </section>
+    <!-- End About Section -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
