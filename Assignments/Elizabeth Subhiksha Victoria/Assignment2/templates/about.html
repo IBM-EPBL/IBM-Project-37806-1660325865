@@ -1,0 +1,21 @@
+{% extends 'navbar.html' %} {% block head %}
+<title>About</title>
+{% endblock %} {% block body %}
+
+<div class="card p-5 align-items-center">
+  <div class="d-flex align-items-center">
+    <img
+      src="../static/images/flask-icon.png"
+      alt="Flask Logo"
+      height="75rem"
+      width="75rem"
+    />
+    <h1 style="color:blue; font-family:verdana;">FLASK API</h1>
+  </div>
+
+  <p class="py-2 fw-normal" style="color:blue; font-family:verdana;">
+    Flask is a micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries. It has no database abstraction layer, form validation, or any other components where pre-existing third-party libraries provide common functions.
+  </p>
+</div>
+
+{% endblock %}
