@@ -1,0 +1,183 @@
+<!-- 
+1.Create a Bucket in IBM object storage. 
+2.Upload an 5 images  to ibm object storage and make it public. write html code to displaying all the 5 images. 
+3.Upload a css page to the object storage and use the same page in your HTML code.
+4.Design a chatbot using IBM Watson assistant for hospital. Ex: User comes with query to know the branches for that hospital in your city. Submit the web URL of that chat bot as a assignment. 
+5.Create Watson assistant service with 10 steps and use 3 conditions in it. Load that script in HTML page.
+-->
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Raksha - Assignment 3</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="crossorigin"
+    />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"
+      />
+    </noscript>
+    <link
+      href="/Assignments/Raksha_V_G/Assignment-1/HomePage/css/bootstrap.min.css?ver=1.2.0"
+      rel="stylesheet"
+    />
+    <link
+      href="/Assignments/Raksha_V_G/Assignment-1/HomePage/css/aos.css?ver=1.2.0"
+      rel="stylesheet"
+    />
+    <link
+      href="/Assignments/Raksha_V_G/Assignment-1/HomePage/css/main.css?ver=1.2.0"
+      rel="stylesheet"
+    />
+    <noscript>
+      <style type="text/css">
+        [data-aos] {
+          opacity: 1 !important;
+          transform: translate(0) scale(1) !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body id="top">
+    <header class="d-print-none">
+      <div class="container text-center text-lg-left">
+        <div class="py-3 clearfix">
+          <h1 class="site-title mb-0">Raksha V G</h1>
+          <div class="site-nav">
+            <nav role="navigation">
+              <h1 class="site-title mb-0">Assignment 3</h1>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="page-content">
+      <div class="container">
+        <div class="cover shadow-lg bg-white">
+          <div class="cover-bg p-3 p-lg-4 text-white">
+            <h4 class="mb-2 text-center">Branches of Raksha Nursing Care</h4>
+            <div class="row">
+              <div class="col-lg-4 col-md-5">
+                <div class="card shadow-sm" style="width: 18rem">
+                  <a
+                    href="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/guindy.jpg"
+                    target="_blank"
+                    style="text-decoration: none"
+                  >
+                    <img
+                      src="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/guindy.jpg"
+                      class="card-img-top"
+                      alt="..."
+                    />
+                    <div class="card-body p-2">
+                      <h5 class="card-title text-dark m-0">Guindy</h5>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-5">
+                <div class="card shadow-sm" style="width: 18rem">
+                  <a
+                    href="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/mahabalipuram.jpg"
+                    target="_blank"
+                    style="text-decoration: none"
+                  >
+                    <img
+                      src="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/mahabalipuram.jpg"
+                      class="card-img-top"
+                      alt="..."
+                    />
+                    <div class="card-body p-2">
+                      <h5 class="card-title text-dark m-0">Mahabalipuram</h5>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-5">
+                <div class="card shadow-sm" style="width: 18rem">
+                  <a
+                    href="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/mylapore.jpg"
+                    target="_blank"
+                    style="text-decoration: none"
+                  >
+                    <img
+                      src="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/mylapore.jpg"
+                      class="card-img-top"
+                      style="height: 12rem"
+                      alt="..."
+                    />
+                    <div class="card-body p-2">
+                      <h5 class="card-title text-dark m-0">Mylapore</h5>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-5 mt-2">
+                <div class="card shadow-sm" style="width: 18rem">
+                  <a
+                    href="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/nungabakkam.jpg"
+                    target="_blank"
+                    style="text-decoration: none"
+                  >
+                    <img
+                      src="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/nungabakkam.jpg"
+                      class="card-img-top"
+                      style="height: 12rem"
+                      alt="..."
+                    />
+                    <div class="card-body p-2">
+                      <h5 class="card-title text-dark m-0">Nungabakkam</h5>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-5 mt-2">
+                <div class="card shadow-sm" style="width: 18rem">
+                  <a
+                    href="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/royapuram.jpg"
+                    target="_blank"
+                    style="text-decoration: none"
+                  >
+                    <img
+                      src="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/royapuram.jpg"
+                      class="card-img-top"
+                      style="height: 12rem"
+                      alt="..."
+                    />
+                    <div class="card-body p-2">
+                      <h5 class="card-title text-dark m-0">Royapuram</h5>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="py-2 text-muted text-center d-print-none">
+      <div class="container">
+        <div class="text-small">
+          <div class="mb-1">&copy; Raksha V G. All rights reserved.</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
