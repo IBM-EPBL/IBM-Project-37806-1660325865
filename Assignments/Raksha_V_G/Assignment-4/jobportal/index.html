@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Raksha - Assignment 3</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="crossorigin"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"
+      />
+    </noscript>
+    <!-- <link
+      href="/Assignments/Raksha_V_G/Assignment-1/HomePage/css/bootstrap.min.css?ver=1.2.0"
+      rel="stylesheet"
+    />
+    <link
+      href="/Assignments/Raksha_V_G/Assignment-1/HomePage/css/aos.css?ver=1.2.0"
+      rel="stylesheet"
+    /> -->
+    <link
+      href="/Assignments/Raksha_V_G/Assignment-1/HomePage/css/main.css?ver=1.2.0"
+      rel="stylesheet"
+    />
+
+    <style type="text/css">
+      [data-aos] {
+        opacity: 1 !important;
+        transform: translate(0) scale(1) !important;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .site-title {
+        font-size: 1.25rem;
+        line-height: 2.5rem;
+      }
+
+      .nav-link {
+        padding: 0;
+        font-size: 1.25rem;
+        line-height: 2.5rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      .nav-link:hover,
+      .nav-link:focus,
+      .active .nav-link {
+        color: rgba(0, 0, 0, 0.8);
+      }
+
+      .nav-item + .nav-item {
+        margin-left: 1rem;
+      }
+
+      .covers {
+        border-radius: 10px;
+      }
+
+      .cover-bg {
+        background-color: #f52e69;
+        background-image: linear-gradient(310deg, #2bff9c 30%, #88c9ff 70%);
+        border-radius: 10px 10px 0 0;
+      }
+
+      .avatar {
+        max-width: 216px;
+        max-height: 216px;
+        margin-top: 20px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      footer a:not(.nav-link) {
+        color: inherit;
+        border-bottom: 1px dashed;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      @media (min-width: 48em) {
+        .site-title {
+          float: left;
+        }
+        .site-nav {
+          float: right;
+        }
+        .avatar {
+          margin-bottom: -80px;
+          margin-left: 0;
+        }
+      }
+
+      @media print {
+        
+        .container {
+          width: auto;
+          max-width: 100%;
+          padding: 0;
+        }
+        .covers,
+        .cover-bg {
+          border-radius: 0;
+        }
+        .cover.shadow-lg {
+          box-shadow: none !important;
+        }
+        .cover-bg {
+          padding: 5rem !important;
+          padding-bottom: 10px !important;
+        }
+        .avatar {
+          margin-top: -10px;
+        }
+        .about-section {
+          padding: 6.5rem 5rem 2rem !important;
+        }
+        .skills-section {
+          padding: 1.5rem 5rem 2rem !important;
+        }
+        .page-break {
+          padding-top: 5rem;
+          page-break-before: always;
+        }
+      }
+    </style>
+  </head>
+  <body id="top" 
+  backgroundImage=url("https://images.unsplash.com/photo-1455849318743-b2233052fcff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80")>
+    <header class="d-print-none">
+      <div class="container text-center text-lg-left">
+        <div class="py-3 clearfix">
+          <h1 class="site-title mb-0">Job Portal</h1>
+          <div class="site-nav">
+            <nav role="navigation">
+              <h1 class="site-title mb-0">
+                
+                
+                <a class="btn btn-primary shadow-sm mt-1" href="#"
+                >Sign In </a
+              ></h1>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="page-content">
+      <div class="container">
+        <div class="container py-5 text-center">
+          <h2 class="h3 mb-3">The Easiest Way
+            to Get Your New Job</h2>
+          <p>
+            Each month, more than 3 million job seekers turn to
+            website in their search for work, making over 140,000
+            applications every single day
+            
+          </p>
+        </div>
+        <div class="cover-bg p-3 p-lg-4 text-white">
+          <h2 class="mb-2 h3 text-center">Available Jobs</h2>
+          <div class="row mt-2">
+            <div class="col-md-4">
+              <div class="card">
+                <img
+                  src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+                  alt="..."
+                  class="card-img-top"
+                />
+                <div class="card-body">
+                  <h5 class="card-title text-dark">Web Developer</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <img
+                  src="https://images.unsplash.com/photo-1542744173-05336fcc7ad4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=802&q=80"
+                  alt="..."
+                  class="card-img-top"
+                  height="260px"
+                />
+                <div class="card-body">
+                  <h5 class="card-title text-dark">Data Analyst</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <img
+                  src="https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2071&q=80"
+                  alt="..."
+                  class="card-img-top"
+                />
+                <div class="card-body">
+                  <h5 class="card-title text-dark">Graphic Designer</h5>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="py-2 text-muted text-center d-print-none">
+      <div class="container">
+        <div class="text-small">
+          <div class="mb-1">&copy; Raksha V G. All rights reserved.</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
