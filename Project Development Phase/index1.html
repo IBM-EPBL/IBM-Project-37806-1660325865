@@ -18,43 +18,97 @@
     ></script>
     <title>Sign in</title>
   </head>
-  <body>
-    <section style="height: 100vh">
-      <div class="row h-100">
-        <div class="col-md-6 d-none d-md-block">
-          <img
-            class="h-100"
-            src="https://img.freepik.com/free-vector/sign-up-concept-illustration_114360-7885.jpg?w=2000"
-            alt="sign"
-            width="100%"
-          />
-        </div>
-        <div class="col-md-6 d-flex align-items-center justify-content-center">
-          <div class="card p-4" style="width: 30rem; height: 20rem">
-            <h1 class="h3 mb-3 font-weight-normal text-center">Sign in</h1>
+  <body style="background-color: hsl(0, 0%, 96%); max-height: 100%">
+    <div class="px-4 py-5 px-md-5 text-center">
+      <div class="container d-flex justify-content-center align-items-center">
+        <div class="row">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <h1 class="my-5 display-3 fw-bold ls-tight">
+              News Tracking <br />
+              <span class="text-primary">Application</span>
+            </h1>
+            <p style="color: hsl(217, 10%, 50.8%)">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
+              itaque accusantium odio, soluta, corrupti aliquam quibusdam
+              tempora at cupiditate quis eum maiores libero veritatis? Dicta
+              facilis sint aliquid ipsum atque?
+            </p>
+          </div>
 
-            <input
-              type="email"
-              id="inputEmail"
-              class="form-control"
-              placeholder="Email address"
-              required=""
-              autofocus=""
-            />
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="card">
+              <div class="card-body py-5 px-md-5">
+                <form>
+                  <!-- 2 column grid layout with text inputs for the first and last names -->
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline">
+                        <input
+                          type="text"
+                          id="form3Example1"
+                          class="form-control"
+                          placeholder="First name"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline">
+                        <input
+                          type="text"
+                          id="form3Example2"
+                          class="form-control"
+                          placeholder="Last name"
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-            <input
-              type="password"
-              id="inputPassword"
-              class="form-control mt-3 mb-3"
-              placeholder="Password"
-              required=""
-            />
-            <button class="btn btn-lg btn-primary btn-block" type="submit">
-              Sign in
-            </button>
+                  <!-- Email input -->
+                  <div class="form-outline mb-4">
+                    <input
+                      type="email"
+                      id="form3Example3"
+                      class="form-control"
+                      placeholder="E-mail Address"
+                    />
+                  </div>
+
+                  <!-- Password input -->
+                  <div class="form-outline mb-4">
+                    <input
+                      type="password"
+                      id="form3Example4"
+                      class="form-control"
+                      placeholder="Password"
+                    />
+                  </div>
+
+                  <!-- Checkbox -->
+                  <div class="form-check d-flex justify-content-center mb-4">
+                    <input
+                      class="form-check-input me-2"
+                      type="checkbox"
+                      value=""
+                      id="form2Example33"
+                      checked
+                    />
+                    <label class="form-check-label" for="form2Example33">
+                      Subscribe to our newsletter
+                    </label>
+                  </div>
+
+                  <!-- Submit button -->
+                  <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">
+                      Sign up
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </body>
 </html>
