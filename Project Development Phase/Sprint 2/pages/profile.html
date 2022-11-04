@@ -222,32 +222,113 @@
               </p>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-            <div class="nav-wrapper position-relative end-0">
-              <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
-                    <i class="material-icons text-lg position-relative">home</i>
-                    <span class="ms-1">App</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                    <i class="material-icons text-lg position-relative">email</i>
-                    <span class="ms-1">Messages</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                    <i class="material-icons text-lg position-relative">settings</i>
-                    <span class="ms-1">Settings</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+        </div>
+       <div class="row">
+        <div class="row">
+          <div class=" mb-5 mb-lg-0">
+            <form>
+              <!-- 2 column grid layout with text inputs for the first and last names -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline input-group input-group-outline">
+                    <input
+                      type="text"
+                      id="form3Example1"
+                      class="form-control"
+                      placeholder="First name"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline input-group input-group-outline">
+                    <input
+                      type="text"
+                      id="form3Example2"
+                      class="form-control"
+                      placeholder="Last name"
+                    />
+                  </div>
+                </div>
+              </div>
+              <!-- Email  -->
+              <div class="form-outline mb-4 input-group input-group-outline">
+                <input
+                  type="email"
+                  id="form3Example3"
+                  class="form-control"
+                  placeholder="E-mail Address"
+                />
+              </div>
+
+              <!-- Password -->
+              <div class="form-outline mb-4 input-group input-group-outline">
+                <input
+                  type="password"
+                  id="form3Example4"
+                  class="form-control"
+                  placeholder="Password"
+                />
+              </div>
+              <!-- Choose interest -->
+              <div class="mb-2">
+                <p class="mb-4 font-weight-normal text-sm">
+                  Choose your interested topics
+                </p>
+                <div class="row">
+                  <div class="col-md-6">
+                    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+                    <label for="vehicle1"> NEWS</label><br>
+                    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+                    <label for="vehicle2"> Sports</label><br>
+                    <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+                    <label for="vehicle3"> Education</label><br><br>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="checkbox" id="vehicle4" name="vehicle1" value="Bike">
+                    <label for="vehicle1"> Finance</label><br>
+                    <input type="checkbox" id="vehicle5" name="vehicle1" value="Bike">
+                    <label for="vehicle1"> Entertainment</label><br>
+                    <input type="checkbox" id="vehicle5" name="vehicle1" value="Bike">
+                    <label for="vehicle1">Local News</label><br>
+                  </div>
+                </div>
+              </div>
+              <!-- Drop down -->
+              <!-- <div class="form-outline mb-4 input-group input-group-outline">
+                <select id="cars" name="cars"  id="form3Example4"
+                class="form-control">
+                  <option value="volvo">NEWS</option>
+                  <option value="saab">Sports</option>
+                  <option value="fiat">Education</option>
+                  <option value="audi">Finance</option>
+                </select>
+              </div> -->
+
+              <!-- Image edit -->
+              <div class="input-group mb-2">  
+                <div class="row">
+                  <p class="font-weight-normal text-sm mb-4">
+                    Click to edit your Display Picture
+                  </p>
+                  <input
+                  type="file" 
+                  name="filename"
+                  id="form3Example4"
+                  class="btn btn-primary mb-4 mx-3"
+                />
+                </div>
+              </div>
+              <!-- Submit button -->
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-        <div class="row">
+       </div>
+        <!-- <div class="row">
           <div class="row">
             <div class="col-12 col-xl-4">
               <div class="card card-plain h-100">
@@ -558,7 +639,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
