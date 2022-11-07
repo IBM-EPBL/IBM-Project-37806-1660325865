@@ -43,7 +43,7 @@
       rel="stylesheet"
     />
     <link
-      href="/Assignments/Raksha_V_G/Assignment-1/HomePage/css/main.css?ver=1.2.0"
+      href="https://raksha.s3.jp-tok.cloud-object-storage.appdomain.cloud/style.css"
       rel="stylesheet"
     />
     <noscript>
@@ -54,6 +54,24 @@
         }
       </style>
     </noscript>
+    <script>
+      window.watsonAssistantChatOptions = {
+        integrationID: "14c93b2a-5157-4b37-aa1c-c7da394f4279", // The ID of this integration.
+        region: "jp-tok", // The region your integration is hosted in.
+        serviceInstanceID: "1bb9d29b-346f-4d25-bf7e-ee1ff2dfc307", // The ID of your service instance.
+        onLoad: function (instance) {
+          instance.render();
+        },
+      };
+      setTimeout(function () {
+        const t = document.createElement("script");
+        t.src =
+          "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" +
+          (window.watsonAssistantChatOptions.clientVersion || "latest") +
+          "/WatsonAssistantChatEntry.js";
+        document.head.appendChild(t);
+      });
+    </script>
   </head>
   <body id="top">
     <header class="d-print-none">
