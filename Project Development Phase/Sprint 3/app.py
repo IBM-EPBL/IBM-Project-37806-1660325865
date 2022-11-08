@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request
-import ibm_db
-import bcrypt
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
-import os  # provides ways to access the Operating System and allows us to read the environment variables
+import ibm_db
+import bcrypt
+import os
 
 load_dotenv()
 
@@ -14,7 +14,7 @@ port = os.getenv("PORT")
 sslcert = os.getenv("SSLServerCertificate")
 userId = os.getenv("UID")
 password = os.getenv("PWD")
-
+sendgrid = os.getenv('SENDGRID_API_KEY')
 conn = ibm_db.connect(
     f'DATABASE={db};HOSTNAME={host};PORT={port};SECURITY=SSL;SSLServerCertificate={sslcert};UID={userId};PWD={password}', '', '')
 
@@ -95,7 +95,7 @@ def create_user():
             html_content='<strong>and easy to do anywhere, even with Python</strong>')
         try:
             sg = SendGridAPIClient(
-                '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')
+                sendgrid)
             response = sg.send(message)
         except Exception as e:
             print("ERROR: PC LOAD LETTER")
