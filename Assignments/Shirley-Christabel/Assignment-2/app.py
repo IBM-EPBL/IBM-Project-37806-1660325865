@@ -1,5 +1,9 @@
-from flask import Flask
-from flask import render_template
+# 1. Create a Flask App
+# 2. Add the Home page, About Page
+# 3. Add the Bootstrap
+# 4. Add the Sign in page and App the Signup Page + database connectivity
+from flask import Flask, render_template, request, redirect, session
+import sqlite3 as sql
 
 app = Flask(__name__)
 
@@ -9,7 +13,7 @@ def index():
     return render_template('home.html')
 
 
-@app.route('/sign-in')
+@app.route('/signin')
 def signin_form():
     return render_template('signin.html')
 
@@ -19,7 +23,7 @@ def signup_form():
     return render_template('signup.html')
 
 
-@app.route('/insertUser', methods=['POST', 'GET'])
+@app.route('/addrec', methods=['POST', 'GET'])
 def addrec():
     if request.method == 'POST':
         try:
