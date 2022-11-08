@@ -139,7 +139,7 @@
                 <div class="col-lg-6 mb-5 mb-lg-0">
                   <div class="card">
                     <div class="card-body py-5 px-md-5">
-                      <form action="{{ url_for('create-user') }}" method="POST">
+                      <form action="{{ url_for('create_user') }}" method="POST">
                         <!-- 2 column grid layout with text inputs for the first and last names -->
                         <div class="row">
                           <div class="col-md-6 mb-4">
@@ -151,6 +151,7 @@
                                 id="form3Example1"
                                 class="form-control"
                                 placeholder="First name"
+                                name="first_name"
                               />
                             </div>
                           </div>
@@ -163,6 +164,7 @@
                                 id="form3Example2"
                                 class="form-control"
                                 placeholder="Last name"
+                                name="last_name"
                               />
                             </div>
                           </div>
@@ -177,6 +179,7 @@
                             id="form3Example3"
                             class="form-control"
                             placeholder="E-mail Address"
+                            name="email"
                           />
                         </div>
 
@@ -189,6 +192,7 @@
                             id="form3Example4"
                             class="form-control"
                             placeholder="Password"
+                            name="password"
                           />
                         </div>
                         <p class="mt-4 text-sm text-center">

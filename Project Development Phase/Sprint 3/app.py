@@ -1,11 +1,22 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, request
 import ibm_db
 import bcrypt
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from dotenv import load_dotenv
+import os  # provides ways to access the Operating System and allows us to read the environment variables
 
-conn = ibm_db.connect("DATABASE=bludb;HOSTNAME=b0aebb68-94fa-46ec-a1fc-1c999edb6187.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud;PORT=31249;SECURITY=SSL;SSLServerCertificate=DigiCertGlobalRootCA.crt;UID=vvz40131;PWD=wmQ9Vz8cJsv3BGMb", '', '')
+load_dotenv()
+
+db = os.getenv("DATABASE")
+host = os.getenv("HOSTNAME")
+port = os.getenv("PORT")
+sslcert = os.getenv("SSLServerCertificate")
+userId = os.getenv("UID")
+password = os.getenv("PWD")
+
+conn = ibm_db.connect(
+    f'DATABASE={db};HOSTNAME={host};PORT={port};SECURITY=SSL;SSLServerCertificate={sslcert};UID={userId};PWD={password}', '', '')
 
 app = Flask(__name__)
 
@@ -13,6 +24,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('signin.html')
+
 
 @app.route('/signin', methods=['POST', 'GET'])
 def signin():
@@ -43,17 +55,21 @@ def signin():
         else:
             return render_template('signin.html', msg="User doesn't exist")
 
+
 @app.route('/signup')
 def signup_form():
     return render_template('signup.html')
 
-@app.route('/create-user', methods=['POST', 'GET'])
+
+@app.route('/create_user', methods=['POST', 'GET'])
 def create_user():
     if request.method == 'POST':
 
-        email = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        intersts = request.form['interests']
+        firstName = request.form['first_name']
+        lastName = request.form['last_name']
+        # intersts = request.form['interests']
         # converting password to array of bytes
         bytes = password.encode('utf-8')
 
@@ -63,11 +79,13 @@ def create_user():
         # Hashing the password
         hashed_password = bcrypt.hashpw(bytes, salt)
 
-        insert_sql = "INSERT INTO users VALUES (?,?,?)"
+        insert_sql = "INSERT INTO users VALUES (?,?,?,?)"
         prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, email)
-        ibm_db.bind_param(prep_stmt, 2, hashed_password)
-        ibm_db.bind_param(prep_stmt, 3, intersts)
+        ibm_db.bind_param(prep_stmt, 1, firstName)
+        ibm_db.bind_param(prep_stmt, 2, lastName)
+        ibm_db.bind_param(prep_stmt, 3, email)
+        ibm_db.bind_param(prep_stmt, 4, hashed_password)
+        # ibm_db.bind_param(prep_stmt, 5, intersts)
         ibm_db.execute(prep_stmt)
 
         message = Mail(
@@ -84,13 +102,16 @@ def create_user():
 
         return render_template('dashboard.html', msg="Account created successfuly..")
 
+
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
 
+
 @app.route('/notifications')
 def notifications():
     return render_template('notifications.html')
+
 
 @app.route('/profile')
 def profile():
