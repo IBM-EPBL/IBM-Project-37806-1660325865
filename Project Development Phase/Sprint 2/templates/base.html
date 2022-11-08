@@ -69,7 +69,7 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <a
-              class="nav-link text-white active bg-gradient-primary"
+              class="{{ 'nav-link text-white active bg-gradient-primary' if active_page == 'Dashboard' else 'nav-link text-white ' }}"
               href="dashboard"
             >
               <div
@@ -89,7 +89,10 @@
           </a>
         </li> -->
           <li class="nav-item">
-            <a class="nav-link text-white" href="/notifications">
+            <a
+              class="{{ 'nav-link text-white active bg-gradient-primary' if active_page == 'Notifications' else 'nav-link text-white ' }}"
+              href="/notifications"
+            >
               <div
                 class="text-white text-center me-2 d-flex align-items-center justify-content-center"
               >
@@ -106,7 +109,10 @@
             </h6>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="/profile">
+            <a
+              class="{{ 'nav-link text-white active bg-gradient-primary' if active_page == 'Profile' else 'nav-link text-white ' }}"
+              href="/profile"
+            >
               <div
                 class="text-white text-center me-2 d-flex align-items-center justify-content-center"
               >
@@ -169,10 +175,10 @@
                 class="breadcrumb-item text-sm text-dark active"
                 aria-current="page"
               >
-                Dashboard
+                {{active_page}}
               </li>
             </ol>
-            <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+            <h6 class="font-weight-bolder mb-0">{{active_page}}</h6>
           </nav>
           <div
             class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4"
