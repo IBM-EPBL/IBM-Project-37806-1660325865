@@ -113,9 +113,55 @@ def notifications():
     return render_template('notifications.html')
 
 
-@app.route('/profile')
+@app.route('/profile', methods=['POST', 'GET'])
 def profile():
-    return render_template('profile.html')
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        interests = request.form['interests']
+        # converting password to array of bytes
+        bytes = password.encode('utf-8')
+
+        # generating the salt
+        salt = bcrypt.gensalt()
+
+        # Hashing the password
+        hashed_password = bcrypt.hashpw(bytes, salt)
+
+        sql = "SELECT first_name, last_name, email FROM users WHERE email =?"
+        stmt = ibm_db.prepare(conn, sql)
+        ibm_db.bind_param(stmt, 1, email)
+        ibm_db.execute(stmt)
+        print(ibm_db.execute(stmt))
+
+        insert_sql = "INSERT INTO users VALUES (?,?,?,?)"
+        prep_stmt = ibm_db.prepare(conn, insert_sql)
+        ibm_db.bind_param(prep_stmt, 1, hashed_password)
+        ibm_db.bind_param(prep_stmt, 2, interests)
+        ibm_db.execute(prep_stmt)
+
+        message = Mail(
+            from_email='veronishwetha.23it@licet.ac.in',
+            to_emails=email,
+            subject='Sending with Twilio SendGrid is Fun',
+            html_content='<strong>and easy to do anywhere, even with Python</strong>')
+        try:
+            sg = SendGridAPIClient(
+                sendgrid)
+            response = sg.send(message)
+        except Exception as e:
+            print("ERROR: PC LOAD LETTER")
+
+        return render_template('dashboard.html', msg="Details uploaded successfuly..")
+    elif request.method=='GET':
+        email='elizabethsubhikshavictoria.23it@licet.ac.in'
+        sql = "SELECT first_name, email FROM users WHERE email =?"
+        stmt = ibm_db.prepare(conn, sql)
+        ibm_db.bind_param(stmt, 1, email)
+        ibm_db.execute(stmt)
+        data = ibm_db.fetch_assoc(stmt)
+        print(type(data))
+    return render_template('profile.html', msg=data)
 
 
 if __name__ == "__main__":
