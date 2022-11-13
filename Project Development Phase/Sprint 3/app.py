@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
@@ -49,7 +49,7 @@ def signin():
             result = bcrypt.checkpw(userBytes, byte_pwd)
 
             if result:
-                return render_template('dashboard.html', msg="Logged in Successfully")
+                return redirect("/dashboard", code=302)
             else:
                 return render_template('signin.html', msg="Invalid Credentials")
         else:
@@ -100,7 +100,7 @@ def create_user():
         except Exception as e:
             print("ERROR: PC LOAD LETTER")
 
-        return render_template('dashboard.html', msg="Account created successfuly..")
+        return redirect("/dashboard", code=302)
 
 
 @app.route('/dashboard')
@@ -153,8 +153,8 @@ def profile():
             print("ERROR: PC LOAD LETTER")
 
         return render_template('dashboard.html', msg="Details uploaded successfuly..")
-    elif request.method=='GET':
-        email='elizabethsubhikshavictoria.23it@licet.ac.in'
+    elif request.method == 'GET':
+        email = 'elizabethsubhikshavictoria.23it@licet.ac.in'
         sql = "SELECT first_name, email FROM users WHERE email =?"
         stmt = ibm_db.prepare(conn, sql)
         ibm_db.bind_param(stmt, 1, email)
