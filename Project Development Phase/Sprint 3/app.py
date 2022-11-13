@@ -2,9 +2,19 @@ from flask import Flask, render_template, request, redirect
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from jinja2 import Environment
+from apscheduler.schedulers.background import BackgroundScheduler
 import ibm_db
 import bcrypt
 import os
+import smtplib
+import requests
+import json
+
 
 load_dotenv()
 
@@ -15,8 +25,80 @@ sslcert = os.getenv("SSLServerCertificate")
 userId = os.getenv("UID")
 password = os.getenv("PWD")
 sendgrid = os.getenv('SENDGRID_API_KEY')
+email = os.getenv('EMAIL')
+mail_pwd = os.getenv('EMAIL_PASSWORD')
+rapid_api_key = os.getenv('RAPID_API_KEY')
+
 conn = ibm_db.connect(
     f'DATABASE={db};HOSTNAME={host};PORT={port};SECURITY=SSL;SSLServerCertificate={sslcert};UID={userId};PWD={password}', '', '')
+
+
+def message(subject="Python Notification",
+            text="", img=None, attachment=None):
+
+    # build message contents
+    msg = MIMEMultipart()
+
+    f = open("./templates/mail.html", "r")
+    html_content = f.read()
+
+    html_contentt = Environment().from_string(
+        html_content).render(msg=text)
+
+    # Add Subject
+    msg['Subject'] = subject
+
+    # Add text contents
+    msg.attach(MIMEText(html_contentt, 'html'))
+    return msg
+
+
+def mail():
+
+    # initialize connection to our email server,
+    # we will use gmail here
+    smtp = smtplib.SMTP('smtp.gmail.com', 587)
+    smtp.ehlo()
+    smtp.starttls()
+
+    # Login with your email and password
+    smtp.login(emal, mail_pwd)
+
+    url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
+
+    querystring = {"q": "Elon Musk", "lang": "en",
+                   "sort_by": "relevancy", "page": "1", "media": "True"}
+
+    headers = {
+        "X-RapidAPI-Key": rapid_api_key,
+        "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+    json_object = json.loads(response.text)
+
+    data = json_object["articles"][0]["title"]
+    print(data)
+
+    # Call the message function
+    msg = message("Exciting news today!", data)
+
+    # Make a list of emails, where you wanna send mail
+    to = ["veronishwetha@gmail.com"]
+
+    # Provide some data to the sendmail function!
+    smtp.sendmail(from_addr="veronishwetha.23it@licet.ac.in",
+                            to_addrs=to, msg=msg.as_string())
+
+    # Finally, don't forget to close the connection
+    smtp.quit()
+
+
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(mail(), 'interval', minutes=60)
+sched.start()
+
 
 app = Flask(__name__)
 
@@ -164,5 +246,10 @@ def profile():
     return render_template('profile.html', msg=data)
 
 
+# mail()
+# schedule.every(5).seconds.do(mail)
 if __name__ == "__main__":
+    # while True:
+    #     schedule.run_pending()
+    #     time.sleep(1)
     app.run(debug=True)
