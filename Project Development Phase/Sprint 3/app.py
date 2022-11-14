@@ -62,7 +62,7 @@ def mail():
     smtp.starttls()
 
     # Login with your email and password
-    smtp.login(emal, mail_pwd)
+    smtp.login(email, mail_pwd)
 
     url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
 
@@ -96,7 +96,7 @@ def mail():
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(mail(), 'interval', minutes=60)
+sched.add_job(mail, 'interval', minutes=60)
 sched.start()
 
 
