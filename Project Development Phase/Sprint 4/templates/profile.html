@@ -1,0 +1,131 @@
+{% extends 'base.html' %} {% set active_page = "Profile" %} {% block head %}
+<title>Profile</title>
+{% endblock %} {% block body %}
+
+<div class="container-fluid px-2 px-md-4">
+  <div
+    class="page-header min-height-300 border-radius-xl mt-4"
+    style="
+      background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    "
+  >
+    <span class="mask bg-gradient-primary opacity-6"></span>
+  </div>
+  <div class="card card-body mx-3 mx-md-4 mt-n6">
+    <div class="row gx-4 mb-2">
+      <div class="col-auto">
+      </div>
+      <div class="col-auto my-auto">
+        <div class="h-100">
+          <h5 class="mb-1">{{msg["FIRST_NAME"]}}</h5>
+          <p class="mb-0 font-weight-normal text-sm">{{msg["EMAIL"]}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="mb-5 mb-lg-0">
+          <i class="fa fa-edit my-4">Edit your details here</i>
+          <form action="{{ url_for('profile') }}" method="POST">
+
+            <!-- Password -->
+            <div class="form-outline mb-4 input-group input-group-outline">
+              <input
+                type="password"
+                id="form3Example4"
+                class="form-control"
+                placeholder="Password"
+              />
+            </div>
+            <!-- Choose interest -->
+            <!-- <div class="mb-2">
+              <p class="mb-4 font-weight-normal text-sm">
+                Choose your interested topics
+              </p>
+              <div class="row">
+                <div class="col-md-6">
+                  <input
+                    type="checkbox"
+                    id="vehicle1"
+                    name="vehicle1"
+                    value="Bike"
+                  />
+                  <label for="vehicle1"> NEWS</label><br />
+                  <input
+                    type="checkbox"
+                    id="vehicle2"
+                    name="vehicle2"
+                    value="Car"
+                  />
+                  <label for="vehicle2"> Sports</label><br />
+                  <input
+                    type="checkbox"
+                    id="vehicle3"
+                    name="vehicle3"
+                    value="Boat"
+                  />
+                  <label for="vehicle3"> Education</label><br /><br />
+                </div>
+                <div class="col-md-6">
+                  <input
+                    type="checkbox"
+                    id="vehicle4"
+                    name="vehicle1"
+                    value="Bike"
+                  />
+                  <label for="vehicle1"> Finance</label><br />
+                  <input
+                    type="checkbox"
+                    id="vehicle5"
+                    name="vehicle1"
+                    value="Bike"
+                  />
+                  <label for="vehicle1"> Entertainment</label><br />
+                  <input
+                    type="checkbox"
+                    id="vehicle5"
+                    name="vehicle1"
+                    value="Bike"
+                  />
+                  <label for="vehicle1">Local News</label><br />
+                </div>
+              </div>
+            </div> -->
+            <!-- Drop down -->
+            <div class="form-outline mb-4 input-group input-group-outline">
+              <select id="interests" name="interests"  id="form3Example4"
+              class="form-control">
+                <option value="news">NEWS</option>
+                <option value="sports">Sports</option>
+                <option value="education">Education</option>
+                <option value="finance">Finance</option>
+                <option value="education">Entertainment</option>
+              </select>
+            </div>
+
+            <!-- Image edit -->
+            <!-- <div class="input-group mb-2">
+              <div class="row">
+                <p class="font-weight-normal text-sm mb-4">
+                  Click to edit your Display Picture
+                </p>
+                <input
+                  type="file"
+                  name="filename"
+                  id="form3Example4"
+                  class="btn btn-primary mb-4 mx-3"
+                />
+              </div>
+            </div> -->
+            <!-- Submit button -->
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+
+{% endblock %}
