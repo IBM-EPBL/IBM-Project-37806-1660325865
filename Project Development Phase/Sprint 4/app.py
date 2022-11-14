@@ -62,7 +62,7 @@ def mail():
     smtp.starttls()
 
     # Login with your email and password
-    smtp.login(emal, mail_pwd)
+    smtp.login(email, mail_pwd)
 
     url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
 
@@ -84,19 +84,28 @@ def mail():
     # Call the message function
     msg = message("Exciting news today!", data)
 
+    sql = "SELECT email FROM users"
+    stmt = ibm_db.prepare(conn, sql)
+    # ibm_db.bind_param(stmt, 1, "shirleychristabel.23it@licet.ac.in")
+    ibm_db.execute(stmt)
+    users = []
+    # auth_token = ibm_db.fetch_row(stmt)
+    while ibm_db.fetch_row(stmt) != False:
+        users.append(ibm_db.result(stmt, 0))
+
     # Make a list of emails, where you wanna send mail
     to = ["veronishwetha@gmail.com"]
 
     # Provide some data to the sendmail function!
     smtp.sendmail(from_addr="veronishwetha.23it@licet.ac.in",
-                            to_addrs=to, msg=msg.as_string())
+                            to_addrs=users, msg=msg.as_string())
 
     # Finally, don't forget to close the connection
     smtp.quit()
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(mail(), 'interval', minutes=60)
+sched.add_job(mail, 'interval', minutes=60)
 sched.start()
 
 
