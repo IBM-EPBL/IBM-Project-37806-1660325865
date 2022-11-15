@@ -7,7 +7,7 @@ from email.mime.image import MIMEImage
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from jinja2 import Environment
-from apscheduler.schedulers.background import BackgroundScheduler 
+from apscheduler.schedulers.background import BackgroundScheduler
 import ibm_db
 import bcrypt
 import os
@@ -187,7 +187,26 @@ def create_user():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    # url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
+
+    # querystring = {"q": "Elon Musk", "lang": "en",
+    #                "sort_by": "relevancy", "page": "1", "media": "True"}
+
+    # headers = {
+    #     "X-RapidAPI-Key": "05db4efea2msha6e24b9b04d0fa1p1d2e10jsn70ec1b71e643",
+    #     "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
+    # }
+
+    # response = requests.request(
+    #     "GET", url, headers=headers, params=querystring)
+    # json_object = json.loads(response.text)
+
+    file1 = open("data.json", "r")
+    json_object = json.load(file1)
+
+    # file1.writelines(response.text)
+
+    return render_template('dashboard.html', students=json_object)
 
 
 @app.route('/notifications')

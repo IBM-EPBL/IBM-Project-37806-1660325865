@@ -78,7 +78,7 @@ def mail():
     smtp.quit()
 
 
-mail()
+# mail()
 # schedule.every(2).seconds.do(mail)
 # # schedule.every(10).minutes.do(mail)
 # # schedule.every().hour.do(mail)
