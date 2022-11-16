@@ -8,6 +8,7 @@ from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from jinja2 import Environment
 from apscheduler.schedulers.background import BackgroundScheduler
+from localStoragePy import localStoragePy
 import ibm_db
 import bcrypt
 import os
@@ -89,18 +90,13 @@ def mail():
     # ibm_db.bind_param(stmt, 1, "shirleychristabel.23it@licet.ac.in")
     ibm_db.execute(stmt)
     users = []
-    # auth_token = ibm_db.fetch_row(stmt)
+    #List of emails
     while ibm_db.fetch_row(stmt) != False:
         users.append(ibm_db.result(stmt, 0))
 
-    # Make a list of emails, where you wanna send mail
-    to = ["veronishwetha@gmail.com"]
-
-    # Provide some data to the sendmail function!
     smtp.sendmail(from_addr="veronishwetha.23it@licet.ac.in",
                             to_addrs=users, msg=msg.as_string())
 
-    # Finally, don't forget to close the connection
     smtp.quit()
 
 
@@ -140,6 +136,7 @@ def signin():
             result = bcrypt.checkpw(userBytes, byte_pwd)
 
             if result:
+                localStorage.setItem("email", email)
                 return redirect("/dashboard", code=302)
             else:
                 return render_template('signin.html', msg="Invalid Credentials")
@@ -160,7 +157,7 @@ def create_user():
         password = request.form['password']
         firstName = request.form['first_name']
         lastName = request.form['last_name']
-        # intersts = request.form['interests']
+        intersts = request.form['interests']
         # converting password to array of bytes
         bytes = password.encode('utf-8')
 
@@ -170,13 +167,13 @@ def create_user():
         # Hashing the password
         hashed_password = bcrypt.hashpw(bytes, salt)
 
-        insert_sql = "INSERT INTO users VALUES (?,?,?,?)"
+        insert_sql = "INSERT INTO users VALUES (?,?,?,?,?)"
         prep_stmt = ibm_db.prepare(conn, insert_sql)
         ibm_db.bind_param(prep_stmt, 1, firstName)
         ibm_db.bind_param(prep_stmt, 2, lastName)
         ibm_db.bind_param(prep_stmt, 3, email)
         ibm_db.bind_param(prep_stmt, 4, hashed_password)
-        # ibm_db.bind_param(prep_stmt, 5, intersts)
+        ibm_db.bind_param(prep_stmt, 5, intersts)
         ibm_db.execute(prep_stmt)
 
         message = Mail(
@@ -194,9 +191,44 @@ def create_user():
         return redirect("/dashboard", code=302)
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
-    return render_template('dashboard.html')
+    if request.method == 'GET':
+        url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
+
+        querystring = {"q": "Elon Musk", "lang": "en",
+                    "sort_by": "relevancy", "page": "1", "media": "True"}
+
+        headers = {
+            "X-RapidAPI-Key": "05db4efea2msha6e24b9b04d0fa1p1d2e10jsn70ec1b71e643",
+            "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
+        }
+
+        response = requests.request(
+            "GET", url, headers=headers, params=querystring)
+        json_object = json.loads(response.text)
+        return render_template('dashboard.html', students=json_object)
+    elif request.method == 'POST':
+        email = localStorage.getItem('email')
+        sql = "SELECT interests FROM users WHERE email =?"
+        stmt = ibm_db.prepare(conn, sql)
+        ibm_db.bind_param(stmt, 1, email)
+        ibm_db.execute(stmt)
+        interest = ibm_db.fetch_assoc(stmt)
+        url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
+
+        querystring = {"q": "Elon Musk", "lang": "en",
+                    "sort_by": "date","topic": auth_token['INTERESTS'], "page": "1", "media": "True"}
+
+        headers = {
+            "X-RapidAPI-Key": "05db4efea2msha6e24b9b04d0fa1p1d2e10jsn70ec1b71e643",
+            "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
+        }
+
+        response = requests.request(
+            "GET", url, headers=headers, params=querystring)
+        json_object = json.loads(response.text)
+        return render_template('dashboard.html', students=json_object)
 
 
 @app.route('/notifications')
@@ -254,6 +286,10 @@ def profile():
         print(type(data))
     return render_template('profile.html', msg=data)
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    localStorage.clear()
+    return redirect("/", code=302)
 
 # mail()
 # schedule.every(5).seconds.do(mail)
