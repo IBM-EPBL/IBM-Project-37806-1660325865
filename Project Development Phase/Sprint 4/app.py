@@ -8,7 +8,6 @@ from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from jinja2 import Environment
 from apscheduler.schedulers.background import BackgroundScheduler
-from localStoragePy import localStoragePy
 import ibm_db
 import bcrypt
 import os
@@ -40,7 +39,7 @@ def message(subject="Python Notification",
     # build message contents
     msg = MIMEMultipart()
 
-    f = open("./templates/mail.html", "r")
+    f = open("./templates/notificationsmail.html", "r", errors="ignore")
     html_content = f.read()
 
     html_contentt = Environment().from_string(
@@ -67,8 +66,8 @@ def mail():
 
     url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
 
-    querystring = {"q": "Elon Musk", "lang": "en",
-                   "sort_by": "relevancy", "page": "1", "media": "True"}
+    querystring = {"q": "news", "lang": "en",
+                   "sort_by": "relevancy", "topic":"news", "page": "1", "media": "True"}
 
     headers = {
         "X-RapidAPI-Key": rapid_api_key,
@@ -79,11 +78,10 @@ def mail():
         "GET", url, headers=headers, params=querystring)
     json_object = json.loads(response.text)
 
-    data = json_object["articles"][0]["title"]
-    print(data)
+    data = json_object["articles"]
 
     # Call the message function
-    msg = message("Exciting news today!", data)
+    msg = message("Exciting news today!", data[:10])
 
     sql = "SELECT email FROM users"
     stmt = ibm_db.prepare(conn, sql)
@@ -136,7 +134,6 @@ def signin():
             result = bcrypt.checkpw(userBytes, byte_pwd)
 
             if result:
-                localStorage.setItem("email", email)
                 return redirect("/dashboard", code=302)
             else:
                 return render_template('signin.html', msg="Invalid Credentials")
@@ -157,7 +154,7 @@ def create_user():
         password = request.form['password']
         firstName = request.form['first_name']
         lastName = request.form['last_name']
-        intersts = request.form['interests']
+        interests = request.form['interests']
         # converting password to array of bytes
         bytes = password.encode('utf-8')
 
@@ -173,18 +170,21 @@ def create_user():
         ibm_db.bind_param(prep_stmt, 2, lastName)
         ibm_db.bind_param(prep_stmt, 3, email)
         ibm_db.bind_param(prep_stmt, 4, hashed_password)
-        ibm_db.bind_param(prep_stmt, 5, intersts)
+        ibm_db.bind_param(prep_stmt, 5, interests)
         ibm_db.execute(prep_stmt)
 
+        f = open("./templates/mail.html", "r")
+        html_content = f.read()
+
         message = Mail(
-            from_email='veronishwetha.23it@licet.ac.in',
-            to_emails=email,
-            subject='Sending with Twilio SendGrid is Fun',
-            html_content='<strong>and easy to do anywhere, even with Python</strong>')
+    from_email='raksha.23it@licet.ac.in',
+    to_emails=email,
+    subject='Registeration Confirmation',
+    html_content=html_content)
         try:
-            sg = SendGridAPIClient(
-                sendgrid)
+            sg = SendGridAPIClient(sendgrid)
             response = sg.send(message)
+            print(response.status_code)
         except Exception as e:
             print("ERROR: PC LOAD LETTER")
 
@@ -194,6 +194,11 @@ def create_user():
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
     if request.method == 'GET':
+        # messages = request.args['messages']
+        # if messages:
+        #     print(messages)
+        # else:
+        #     print("no msg")
         url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
 
         querystring = {"q": "Elon Musk", "lang": "en",
@@ -207,9 +212,12 @@ def dashboard():
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
         json_object = json.loads(response.text)
+        # f = open("data.json","r")
+        # data = f.read()
+        # json_object = json.loads(data)
         return render_template('dashboard.html', students=json_object)
+    #search endpoint
     elif request.method == 'POST':
-        email = localStorage.getItem('email')
         sql = "SELECT interests FROM users WHERE email =?"
         stmt = ibm_db.prepare(conn, sql)
         ibm_db.bind_param(stmt, 1, email)
@@ -231,11 +239,6 @@ def dashboard():
         return render_template('dashboard.html', students=json_object)
 
 
-@app.route('/notifications')
-def notifications():
-    return render_template('notifications.html')
-
-
 @app.route('/profile', methods=['POST', 'GET'])
 def profile():
     if request.method == 'POST':
@@ -255,7 +258,6 @@ def profile():
         stmt = ibm_db.prepare(conn, sql)
         ibm_db.bind_param(stmt, 1, email)
         ibm_db.execute(stmt)
-        print(ibm_db.execute(stmt))
 
         insert_sql = "INSERT INTO users VALUES (?,?,?,?)"
         prep_stmt = ibm_db.prepare(conn, insert_sql)
@@ -283,18 +285,17 @@ def profile():
         ibm_db.bind_param(stmt, 1, email)
         ibm_db.execute(stmt)
         data = ibm_db.fetch_assoc(stmt)
-        print(type(data))
     return render_template('profile.html', msg=data)
 
-@app.route('/logout', methods=['GET'])
+@app.route("/logout", methods=['POST'])
 def logout():
-    localStorage.clear()
-    return redirect("/", code=302)
+    token = request.get_json()
+
+    # log the user out
+    print(token)
+    return render_template('signin.html')
 
 # mail()
-# schedule.every(5).seconds.do(mail)
+
 if __name__ == "__main__":
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(1)
     app.run(debug=True)

@@ -80,27 +80,6 @@
               <span class="nav-link-text ms-1">Dashboard</span>
             </a>
           </li>
-          <!-- <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/tables.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
-            </div>
-            <span class="nav-link-text ms-1">Tables</span>
-          </a>
-        </li> -->
-          <li class="nav-item">
-            <a
-              class="{{ 'nav-link text-white active bg-gradient-primary' if active_page == 'Notifications' else 'nav-link text-white ' }}"
-              href="/notifications"
-            >
-              <div
-                class="text-white text-center me-2 d-flex align-items-center justify-content-center"
-              >
-                <i class="material-icons opacity-10">notifications</i>
-              </div>
-              <span class="nav-link-text ms-1">Notifications</span>
-            </a>
-          </li>
           <li class="nav-item">
             <a
               class="{{ 'nav-link text-white active bg-gradient-primary' if active_page == 'Profile' else 'nav-link text-white ' }}"
@@ -118,14 +97,30 @@
       </div>
       <div class="sidenav-footer position-absolute w-100 bottom-0">
         <div class="mx-3">
-          <a
+          <button
             class="btn bg-gradient-primary mt-4 w-100"
-            href="/logout"
-            type="button"
-            >Log out</a
+            id="logout"
+            onclick="logout()"
+            type="submit"
           >
+            Log out
+          </button>
         </div>
       </div>
+      <script type="text/javascript">
+        function logout() {
+          document.getElementById("logout").onclick = function logout() {
+            let email = localStorage.getItem("email");
+            $.ajax({
+              type: "POST",
+              url: "/logout",
+              data: JSON.stringify(email),
+              contentType: "application/json",
+              dataType: "json",
+            });
+          };
+        }
+      </script>
     </aside>
     <main
       class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
@@ -730,6 +725,7 @@
         Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
       }
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->

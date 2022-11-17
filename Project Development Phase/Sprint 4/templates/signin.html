@@ -100,7 +100,7 @@
                     <div class="form-outline mb-4 input-group input-group-outline">
                       <input
                         type="email"
-                        id="form3Example3"
+                        id="username"
                         class="form-control"
                         placeholder="E-mail Address"
                         name="username"
@@ -121,15 +121,21 @@
                    
                     <p class="mt-4 text-sm text-center">
                       Don't have an account?
-                      <a href="/signup" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                      <a href="/signup"class="text-primary text-gradient font-weight-bold">Sign up</a>
                     </p>
                     <!-- Submit button -->
                     <div class="d-grid gap-2">
-                      <button type="submit" class="btn btn-primary">
+                      <button type="submit"  onclick="store()" class="btn btn-primary">
                         Sign in
                       </button>
                     </div>
                   </form>
+                  <script type="text/javascript">
+                    function store() {
+                      var inputEmail = document.getElementById("username");
+                      localStorage.setItem("email", inputEmail.value);
+                    }
+                  </script>
                 </div>
               </div>
             </div>
