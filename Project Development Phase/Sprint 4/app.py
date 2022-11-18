@@ -155,7 +155,7 @@ def signup_form():
     return render_template('signup.html')
 
 @app.route('/error')
-def signup_form():
+def error():
     return render_template('error.html')
 
 
