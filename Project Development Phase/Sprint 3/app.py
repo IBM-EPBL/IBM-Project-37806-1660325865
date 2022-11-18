@@ -95,9 +95,9 @@ def mail():
     smtp.quit()
 
 
-sched = BackgroundScheduler(daemon=True)
-sched.add_job(mail, 'interval', minutes=60)
-sched.start()
+# sched = BackgroundScheduler(daemon=True)
+# sched.add_job(mail, 'interval', minutes=60)
+# sched.start()
 
 
 app = Flask(__name__)

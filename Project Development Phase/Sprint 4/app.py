@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect,session
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
@@ -8,6 +8,7 @@ from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from jinja2 import Environment
 from apscheduler.schedulers.background import BackgroundScheduler
+from flask_session import Session
 import ibm_db
 import bcrypt
 import os
@@ -67,7 +68,7 @@ def mail():
     url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
 
     querystring = {"q": "news", "lang": "en",
-                   "sort_by": "relevancy", "topic":"news", "page": "1", "media": "True"}
+                   "sort_by": "relevancy", "topic": "news", "page": "1", "media": "True"}
 
     headers = {
         "X-RapidAPI-Key": rapid_api_key,
@@ -88,7 +89,7 @@ def mail():
     # ibm_db.bind_param(stmt, 1, "shirleychristabel.23it@licet.ac.in")
     ibm_db.execute(stmt)
     users = []
-    #List of emails
+    # List of emails
     while ibm_db.fetch_row(stmt) != False:
         users.append(ibm_db.result(stmt, 0))
 
@@ -105,10 +106,16 @@ sched.start()
 
 app = Flask(__name__)
 
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 @app.route('/')
 def index():
-    return render_template('signin.html')
+    if not session.get("email"):
+        return render_template('signin.html')
+    else:
+        return redirect("/dashboard",code=302)
 
 
 @app.route('/signin', methods=['POST', 'GET'])
@@ -132,8 +139,10 @@ def signin():
 
             # checking password
             result = bcrypt.checkpw(userBytes, byte_pwd)
+            print(result)
 
             if result:
+                session["email"] = email
                 return redirect("/dashboard", code=302)
             else:
                 return render_template('signin.html', msg="Invalid Credentials")
@@ -177,16 +186,18 @@ def create_user():
         html_content = f.read()
 
         message = Mail(
-    from_email='raksha.23it@licet.ac.in',
-    to_emails=email,
-    subject='Registeration Confirmation',
-    html_content=html_content)
+            from_email='raksha.23it@licet.ac.in',
+            to_emails=email,
+            subject='Registeration Confirmation',
+            html_content=html_content)
         try:
             sg = SendGridAPIClient(sendgrid)
             response = sg.send(message)
             print(response.status_code)
         except Exception as e:
             print("ERROR: PC LOAD LETTER")
+        print(type(email))
+        session["email"] = email
 
         return redirect("/dashboard", code=302)
 
@@ -194,108 +205,110 @@ def create_user():
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
     if request.method == 'GET':
-        # messages = request.args['messages']
-        # if messages:
-        #     print(messages)
-        # else:
-        #     print("no msg")
-        url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
+        if not session.get("email"):
+            return redirect("/")
+        else:
+            email = session.get("email")
+            sql = "SELECT interests FROM users WHERE email=?"
+            stmt = ibm_db.prepare(conn, sql)
+            ibm_db.bind_param(stmt, 1, email)
+            ibm_db.execute(stmt)
+            interest = ibm_db.fetch_assoc(stmt)
+            interest_value = interest['INTERESTS']
+            url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
 
-        querystring = {"q": "Elon Musk", "lang": "en",
-                    "sort_by": "relevancy", "page": "1", "media": "True"}
+            querystring = {"q": interest_value, "lang": "en",
+                        "sort_by": "date", "topic":interest_value, "page": "1", "media": "True"}
 
-        headers = {
-            "X-RapidAPI-Key": "05db4efea2msha6e24b9b04d0fa1p1d2e10jsn70ec1b71e643",
-            "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
-        }
+            headers = {
+                "X-RapidAPI-Key": rapid_api_key,
+                "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
+            }
 
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
-        json_object = json.loads(response.text)
-        # f = open("data.json","r")
-        # data = f.read()
-        # json_object = json.loads(data)
-        return render_template('dashboard.html', students=json_object)
-    #search endpoint
+            response = requests.request(
+                "GET", url, headers=headers, params=querystring)
+            json_object = json.loads(response.text)
+            # f = open("data.json","r")
+            # data = f.read()
+            # json_object = json.loads(data)
+            return render_template('dashboard.html', students=json_object)
+    # search endpoint
     elif request.method == 'POST':
-        sql = "SELECT interests FROM users WHERE email =?"
-        stmt = ibm_db.prepare(conn, sql)
-        ibm_db.bind_param(stmt, 1, email)
-        ibm_db.execute(stmt)
-        interest = ibm_db.fetch_assoc(stmt)
-        url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
+        if not session.get("email"):
+            return redirect("/")
+        else:
+            email = session.get("email")
+            sql = "SELECT interests FROM users WHERE email =?"
+            stmt = ibm_db.prepare(conn, sql)
+            ibm_db.bind_param(stmt, 1, email)
+            ibm_db.execute(stmt)
+            interest = ibm_db.fetch_assoc(stmt)
+            url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
 
-        querystring = {"q": "Elon Musk", "lang": "en",
-                    "sort_by": "date","topic": auth_token['INTERESTS'], "page": "1", "media": "True"}
+            querystring = {"q": "Elon Musk", "lang": "en",
+                        "sort_by": "date", "topic": auth_token['INTERESTS'], "page": "1", "media": "True"}
 
-        headers = {
-            "X-RapidAPI-Key": "05db4efea2msha6e24b9b04d0fa1p1d2e10jsn70ec1b71e643",
-            "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
-        }
+            headers = {
+                "X-RapidAPI-Key": rapid_api_key,
+                "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
+            }
 
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
-        json_object = json.loads(response.text)
-        return render_template('dashboard.html', students=json_object)
+            response = requests.request(
+                "GET", url, headers=headers, params=querystring)
+            json_object = json.loads(response.text)
+            return render_template('dashboard.html', students=json_object)
 
 
 @app.route('/profile', methods=['POST', 'GET'])
 def profile():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        interests = request.form['interests']
-        # converting password to array of bytes
-        bytes = password.encode('utf-8')
+        if not session.get("email"):
+            return redirect("/")
+        else:
+            email = session.get("email")
+            password = request.form['password']
+            interests = request.form['interests']
+            # converting password to array of bytes
+            bytes = password.encode('utf-8')
 
-        # generating the salt
-        salt = bcrypt.gensalt()
+            # generating the salt
+            salt = bcrypt.gensalt()
 
-        # Hashing the password
-        hashed_password = bcrypt.hashpw(bytes, salt)
+            # Hashing the password
+            hashed_password = bcrypt.hashpw(bytes, salt)
 
-        sql = "SELECT first_name, last_name, email FROM users WHERE email =?"
-        stmt = ibm_db.prepare(conn, sql)
-        ibm_db.bind_param(stmt, 1, email)
-        ibm_db.execute(stmt)
+            sql = "SELECT first_name, last_name, email FROM users WHERE email =?"
+            stmt = ibm_db.prepare(conn, sql)
+            ibm_db.bind_param(stmt, 1, email)
+            ibm_db.execute(stmt)
 
-        insert_sql = "INSERT INTO users VALUES (?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, hashed_password)
-        ibm_db.bind_param(prep_stmt, 2, interests)
-        ibm_db.execute(prep_stmt)
-
-        message = Mail(
-            from_email='veronishwetha.23it@licet.ac.in',
-            to_emails=email,
-            subject='Sending with Twilio SendGrid is Fun',
-            html_content='<strong>and easy to do anywhere, even with Python</strong>')
-        try:
-            sg = SendGridAPIClient(
-                sendgrid)
-            response = sg.send(message)
-        except Exception as e:
-            print("ERROR: PC LOAD LETTER")
-
-        return render_template('dashboard.html', msg="Details uploaded successfuly..")
+            update_sql = "UPDATE USERS SET PASSWORD = ?, INTERESTS = ? WHERE email = ?"
+            prep_stmt = ibm_db.prepare(conn, update_sql)
+            ibm_db.bind_param(prep_stmt, 1, hashed_password)
+            ibm_db.bind_param(prep_stmt, 2, interests)
+            ibm_db.bind_param(prep_stmt, 3, email)
+            ibm_db.execute(prep_stmt)
+            return redirect("/dashboard", code=302)
     elif request.method == 'GET':
-        email = 'elizabethsubhikshavictoria.23it@licet.ac.in'
-        sql = "SELECT first_name, email FROM users WHERE email =?"
-        stmt = ibm_db.prepare(conn, sql)
-        ibm_db.bind_param(stmt, 1, email)
-        ibm_db.execute(stmt)
-        data = ibm_db.fetch_assoc(stmt)
-    return render_template('profile.html', msg=data)
+        if not session.get("email"):
+            return redirect("/")
+        else:
+            email = session.get("email")
+            sql = "SELECT first_name, email FROM users WHERE email =?"
+            stmt = ibm_db.prepare(conn, sql)
+            ibm_db.bind_param(stmt, 1, email)
+            ibm_db.execute(stmt)
+            data = ibm_db.fetch_assoc(stmt)
+            return render_template('profile.html', msg=data)
 
-@app.route("/logout", methods=['POST'])
+
+@app.route("/logout")
 def logout():
-    token = request.get_json()
-
-    # log the user out
-    print(token)
-    return render_template('signin.html')
+    session["email"] = None
+    return redirect("/", code=302)
 
 # mail()
+
 
 if __name__ == "__main__":
     app.run(debug=True)

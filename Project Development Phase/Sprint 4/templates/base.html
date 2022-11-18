@@ -109,30 +109,17 @@
       </div>
       <div class="sidenav-footer position-absolute w-100 bottom-0">
         <div class="mx-3">
-          <button
+          <a href="/logout">
+            <button
             class="btn bg-gradient-primary mt-4 w-100"
             id="logout"
-            onclick="logout()"
             type="submit"
           >
             Log out
           </button>
+          </a>
         </div>
       </div>
-      <script type="text/javascript">
-        function logout() {
-          document.getElementById("logout").onclick = function logout() {
-            let email = localStorage.getItem("email");
-            $.ajax({
-              type: "POST",
-              url: "/logout",
-              data: JSON.stringify(email),
-              contentType: "application/json",
-              dataType: "json",
-            });
-          };
-        }
-      </script>
     </aside>
     <main
       class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
@@ -165,10 +152,13 @@
             id="navbar"
           >
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-              <div class="input-group input-group-outline">
-                <label class="form-label">Search here...</label>
-                <input type="text" class="form-control" name="interests" />
-              </div>
+              <form  action="{{ url_for('dashboard') }}" method="POST"></form>
+                <div class="input-group input-group-outline">
+                  <label class="form-label">Search here...</label>
+                  <input type="text" class="form-control" name="interests" />
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+              </form>
             </div>
             <ul class="navbar-nav justify-content-end">
               <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
