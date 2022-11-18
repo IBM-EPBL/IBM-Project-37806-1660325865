@@ -99,9 +99,9 @@ def mail():
     smtp.quit()
 
 
-sched = BackgroundScheduler(daemon=True)
-sched.add_job(mail, 'interval', minutes=60)
-sched.start()
+# sched = BackgroundScheduler(daemon=True)
+# sched.add_job(mail, 'interval', minutes=60)
+# sched.start()
 
 
 app = Flask(__name__)
@@ -215,38 +215,40 @@ def dashboard():
             ibm_db.execute(stmt)
             interest = ibm_db.fetch_assoc(stmt)
             interest_value = interest['INTERESTS']
-            url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
+            # url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
 
-            querystring = {"q": interest_value, "lang": "en",
-                        "sort_by": "date", "topic":interest_value, "page": "1", "media": "True"}
+            # querystring = {"q": interest_value, "lang": "en",
+            #             "sort_by": "date", "topic":interest_value, "page": "1", "media": "True"}
 
-            headers = {
-                "X-RapidAPI-Key": rapid_api_key,
-                "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
-            }
+            # headers = {
+            #     "X-RapidAPI-Key": rapid_api_key,
+            #     "X-RapidAPI-Host": "newscatcher.p.rapidapi.com"
+            # }
 
-            response = requests.request(
-                "GET", url, headers=headers, params=querystring)
-            json_object = json.loads(response.text)
-            # f = open("data.json","r")
-            # data = f.read()
-            # json_object = json.loads(data)
+            # response = requests.request(
+            #     "GET", url, headers=headers, params=querystring)
+            # json_object = json.loads(response.text)
+            f = open("data.json","r")
+            data = f.read()
+            json_object = json.loads(data)
             return render_template('dashboard.html', students=json_object)
     # search endpoint
     elif request.method == 'POST':
         if not session.get("email"):
             return redirect("/")
         else:
+            search = request.form['search']
             email = session.get("email")
-            sql = "SELECT interests FROM users WHERE email =?"
+            sql = "SELECT interests FROM users WHERE email=?"
             stmt = ibm_db.prepare(conn, sql)
             ibm_db.bind_param(stmt, 1, email)
             ibm_db.execute(stmt)
             interest = ibm_db.fetch_assoc(stmt)
+            interest_value = interest['INTERESTS']
             url = "https://newscatcher.p.rapidapi.com/v1/search_enterprise"
 
-            querystring = {"q": "Elon Musk", "lang": "en",
-                        "sort_by": "date", "topic": auth_token['INTERESTS'], "page": "1", "media": "True"}
+            querystring = {"q": search, "lang": "en",
+                        "sort_by": "date", "topic": interest_value, "page": "1", "media": "True"}
 
             headers = {
                 "X-RapidAPI-Key": rapid_api_key,
