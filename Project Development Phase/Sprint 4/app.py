@@ -154,6 +154,10 @@ def signin():
 def signup_form():
     return render_template('signup.html')
 
+@app.route('/error')
+def signup_form():
+    return render_template('error.html')
+
 
 @app.route('/create_user', methods=['POST', 'GET'])
 def create_user():
