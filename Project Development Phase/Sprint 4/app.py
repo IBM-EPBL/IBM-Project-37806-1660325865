@@ -177,33 +177,37 @@ def create_user():
         # Hashing the password
         hashed_password = bcrypt.hashpw(bytes, salt)
 
-        insert_sql = "INSERT INTO users VALUES (?,?,?,?,?)"
-        prep_stmt = ibm_db.prepare(conn, insert_sql)
-        ibm_db.bind_param(prep_stmt, 1, firstName)
-        ibm_db.bind_param(prep_stmt, 2, lastName)
-        ibm_db.bind_param(prep_stmt, 3, email)
-        ibm_db.bind_param(prep_stmt, 4, hashed_password)
-        ibm_db.bind_param(prep_stmt, 5, interests)
-        ibm_db.execute(prep_stmt)
-
-        f = open("./templates/mail.html", "r")
-        html_content = f.read()
-
-        message = Mail(
-            from_email='raksha.23it@licet.ac.in',
-            to_emails=email,
-            subject='Registeration Confirmation',
-            html_content=html_content)
         try:
-            sg = SendGridAPIClient(sendgrid)
-            response = sg.send(message)
-            print(response.status_code)
-        except Exception as e:
-            print("ERROR: PC LOAD LETTER")
-        print(type(email))
-        session["email"] = email
 
-        return redirect("/dashboard", code=302)
+            insert_sql = "INSERT INTO users VALUES (?,?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, firstName)
+            ibm_db.bind_param(prep_stmt, 2, lastName)
+            ibm_db.bind_param(prep_stmt, 3, email)
+            ibm_db.bind_param(prep_stmt, 4, hashed_password)
+            ibm_db.bind_param(prep_stmt, 5, interests)
+            ibm_db.execute(prep_stmt)
+
+            f = open("./templates/mail.html", "r")
+            html_content = f.read()
+
+            message = Mail(
+                from_email='raksha.23it@licet.ac.in',
+                to_emails=email,
+                subject='Registeration Confirmation',
+                html_content=html_content)
+            try:
+                sg = SendGridAPIClient(sendgrid)
+                response = sg.send(message)
+                print(response.status_code)
+            except Exception as e:
+                print("ERROR: PC LOAD LETTER")
+            print(type(email))
+            session["email"] = email
+
+            return redirect("/dashboard", code=302)
+        except e:
+            return redirect("/signup", code=302)
 
 
 @app.route('/dashboard', methods=['POST', 'GET'])
