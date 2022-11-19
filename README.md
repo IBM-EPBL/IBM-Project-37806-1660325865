@@ -20,3 +20,5 @@ NEWS Daily is one of these news tracking tools that is a good fit for businesses
 
 **DEMO VIDEO LINK**:
 https://youtu.be/-g88dY_BUvs
+
+**DEPLOYMENT LINK**: http://169.51.194.163:30866/
